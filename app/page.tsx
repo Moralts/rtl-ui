@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -8,8 +10,31 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { useState } from "react";
 
 export default function Home() {
+  const [isProfileSelectorOpen, setIsProfileSelectorOpen] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState({
+    name: "RTL User",
+    status: "正版验证"
+  });
+
+  const profiles = [
+    { id: 1, name: "MocoStars", status: "正版验证" },
+    { id: 2, name: "Esuny", status: "离线登录" },
+    { id: 3, name: "ElandaDRM", status: "离线登录" },
+    { id: 4, name: "EasyCaomou", status: "离线登录" },
+    { id: 5, name: "Genshin", status: "皮肤站登录" },
+  ];
+
+  const handleProfileSelect = (profile: typeof profiles[0]) => {
+    setSelectedProfile({
+      name: profile.name,
+      status: profile.status
+    });
+    setIsProfileSelectorOpen(false);
+  };
+
   return (
     <div className="relative h-screen">
       {/* 公告栏 - 左侧 1/4，保持原有非占满样式 */}
@@ -48,20 +73,23 @@ export default function Home() {
         </Card>
       </div>
       
-
-      
       {/* 右侧栏 - 1/4 宽度，上下占满 */}
       <div className="absolute right-0 top-0 w-1/4 h-full p-4">
         <Card className="h-full flex flex-col justify-between">
-
           {/* 卡片主要内容区域 */}
-          <CardContent className="flex-grow flex flex-col items-center justify-center">
-            <div className="w-15 h-15 rounded-full overflow-hidden">
-              <AspectRatio ratio={1} className="flex items-center justify-center bg-gray-200 border-2 border-dashed rounded-xl w-full h-full">
-                {/* 这里可以放置实际的头像图片 */}
-              </AspectRatio>
-            </div>
-            <span className="font-bold mt-4">RTL User</span>
+          <CardContent 
+            className="flex-grow flex flex-col items-center justify-center cursor-pointer"
+            onClick={() => setIsProfileSelectorOpen(true)}
+          >
+            <Card className="p-4 items-center">
+              <div className="w-15 h-15 rounded-full overflow-hidden">
+                <AspectRatio ratio={1} className="flex items-center justify-center bg-gray-200 border-2 border-dashed rounded-xl w-full h-full">
+                  {/* 这里可以放置实际的头像图片 */}
+                </AspectRatio>
+              </div>
+              <span className="font-bold">{selectedProfile.name}</span>
+              <span className="text-gray-500 text-sm">{selectedProfile.status}</span>
+            </Card>
           </CardContent>
 
           {/* 卡片底部按钮区域 */}
@@ -76,6 +104,49 @@ export default function Home() {
           </CardContent>
         </Card>
       </div>
+
+      {/* 弹出的选择器卡片 */}
+      {isProfileSelectorOpen && (
+        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+          <Card className="w-full max-w-md shadow-2xl shadow-black/20 dark:shadow-black/40 transform transition-all duration-300 ease-out">
+            <CardHeader>
+              <CardTitle>选择用户</CardTitle>
+              <CardDescription>点击选择一个用户配置文件</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {profiles.map((profile) => (
+                    <CarouselItem key={profile.id} className="basis-full sm:basis-1/2 md:basis-1/3">
+                      <div 
+                        className="p-4 border rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                        onClick={() => handleProfileSelect(profile)}
+                      >
+                        <div className="flex flex-col items-center">
+                          <div className="w-16 h-16 rounded-full overflow-hidden mb-2">
+                            <AspectRatio ratio={1} className="flex items-center justify-center bg-gray-200 border-2 border-dashed rounded-xl w-full h-full">
+                              {/* 这里可以放置实际的头像图片 */}
+                            </AspectRatio>
+                          </div>
+                          <h3 className="font-semibold">{profile.name}</h3>
+                          <p className="text-sm text-gray-500">{profile.status}</p>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+              <div className="mt-4 flex justify-center">
+                <Button variant="outline" onClick={() => setIsProfileSelectorOpen(false)}>
+                  取消
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
-} 
+}

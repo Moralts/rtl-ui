@@ -106,7 +106,7 @@ export function Sidebar() {
           onClick={toggleTheme}
           className="relative"
         >
-          <div className={`transition-all duration-300 ease-in-out ${isAnimating ? 'rotate-[360deg] scale-0' : 'rotate-0 scale-100'}`}>
+          <div className={`transition-all duration-300 ease-in-out ${isAnimating ? 'rotate-[360deg] scale-0' : ''}`}>
             {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
           </div>
         </Button>
