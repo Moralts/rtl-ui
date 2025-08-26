@@ -2,10 +2,12 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useTheme } from "next-themes";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export function Sidebar() {
   const { theme, setTheme } = useTheme();
@@ -13,6 +15,7 @@ export function Sidebar() {
   const [isAnimating, setIsAnimating] = useState(false);
   const lastTheme = useRef(theme);
   const pathname = usePathname();
+  const router = useRouter();
 
   // 确保组件在客户端正确挂载后再渲染，避免水合问题
   useEffect(() => {
@@ -34,6 +37,9 @@ export function Sidebar() {
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
+
+  // 判断是否为二级页面（不是主页面或侧边栏导航页面）
+  const isSubPage = !['/', '/download', '/lan', '/more', '/settings'].includes(pathname);
 
   // 避免在服务端渲染时出现水合不匹配的问题
   if (!mounted) {
@@ -57,70 +63,132 @@ export function Sidebar() {
   }
 
   return (
-    <Card className="fixed left-0 top-0 h-full w-16 rounded-none border-r flex flex-col justify-between p-2">
-      <CardContent className="p-0 flex flex-col items-center gap-4">
-        {/* 上方按钮 */}
-        <Button 
-          variant={pathname === "/" ? "default" : "ghost"} 
-          size="icon" 
-          asChild
-        >
-          <Link href="/">
-            <HomeIcon />
-          </Link>
-        </Button>
-        <Button 
-          variant={pathname === "/download" ? "default" : "ghost"} 
-          size="icon" 
-          asChild
-        >
-          <Link href="/download">
-            <DownloadIcon />
-          </Link>
-        </Button>
-        <Button 
-          variant={pathname === "/lan" ? "default" : "ghost"} 
-          size="icon" 
-          asChild
-        >
-          <Link href="/lan">
-            <WifiIcon />
-          </Link>
-        </Button>
-        <Button 
-          variant={pathname === "/more" ? "default" : "ghost"} 
-          size="icon" 
-          asChild
-        >
-          <Link href="/more">
-            <MoreIcon />
-          </Link>
-        </Button>
-      </CardContent>
-      
-      <CardContent className="p-0 flex flex-col items-center gap-4">
-        {/* 下方按钮 */}
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          onClick={toggleTheme}
-          className="relative"
-        >
-          <div className={`transition-all duration-300 ease-in-out ${isAnimating ? 'rotate-[360deg] scale-0' : ''}`}>
-            {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
-          </div>
-        </Button>
-        <Button 
-          variant={pathname === "/settings" ? "default" : "ghost"} 
-          size="icon" 
-          asChild
-        >
-          <Link href="/settings">
-            <SettingsIcon />
-          </Link>
-        </Button>
-      </CardContent>
-    </Card>
+    <TooltipProvider>
+      <Card className="fixed left-0 top-0 h-full w-16 rounded-none border-r flex flex-col justify-between p-2">
+        <CardContent className="p-0 flex flex-col items-center gap-4">
+          {/* 返回按钮 - 仅在二级页面显示 */}
+          {isSubPage && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={() => router.back()}
+                >
+                  <BackIcon />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <p>返回上一页</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+          
+          {/* 上方按钮 */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant={pathname === "/" ? "default" : "ghost"} 
+                size="icon" 
+                asChild
+              >
+                <Link href="/">
+                  <HomeIcon />
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>主页</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant={pathname === "/download" ? "default" : "ghost"} 
+                size="icon" 
+                asChild
+              >
+                <Link href="/download">
+                  <DownloadIcon />
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>下载</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant={pathname === "/lan" ? "default" : "ghost"} 
+                size="icon" 
+                asChild
+              >
+                <Link href="/lan">
+                  <WifiIcon />
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>网络</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant={pathname === "/more" ? "default" : "ghost"} 
+                size="icon" 
+                asChild
+              >
+                <Link href="/more">
+                  <MoreIcon />
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>更多</p>
+            </TooltipContent>
+          </Tooltip>
+        </CardContent>
+        
+        <CardContent className="p-0 flex flex-col items-center gap-4">
+          {/* 下方按钮 */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={toggleTheme}
+                className="relative"
+              >
+                <div className={`transition-all duration-300 ease-in-out ${isAnimating ? 'rotate-[360deg] scale-0' : ''}`}>
+                  {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
+                </div>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>切换主题</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant={pathname === "/settings" ? "default" : "ghost"} 
+                size="icon" 
+                asChild
+              >
+                <Link href="/settings">
+                  <SettingsIcon />
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>设置</p>
+            </TooltipContent>
+          </Tooltip>
+        </CardContent>
+      </Card>
+    </TooltipProvider>
   );
 }
 
@@ -178,6 +246,15 @@ function MoonIcon() {
   return (
     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+  );
+}
+
+// 返回图标
+function BackIcon() {
+  return (
+    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
     </svg>
   );
 }

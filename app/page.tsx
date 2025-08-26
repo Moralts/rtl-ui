@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 
 export default function Home() {
@@ -78,10 +79,12 @@ export default function Home() {
         <Card className="h-full flex flex-col justify-between">
           {/* 卡片主要内容区域 */}
           <CardContent 
-            className="flex-grow flex flex-col items-center justify-center cursor-pointer"
-            onClick={() => setIsProfileSelectorOpen(true)}
+            className="flex-grow flex flex-col items-center justify-center"
           >
-            <Card className="p-4 items-center">
+            <Card 
+              className="p-4 items-center cursor-pointer"
+              onClick={() => setIsProfileSelectorOpen(true)}
+            >
               <div className="w-15 h-15 rounded-full overflow-hidden">
                 <AspectRatio ratio={1} className="flex items-center justify-center bg-gray-200 border-2 border-dashed rounded-xl w-full h-full">
                   {/* 这里可以放置实际的头像图片 */}
@@ -95,10 +98,11 @@ export default function Home() {
           {/* 卡片底部按钮区域 */}
           <CardContent className="flex items-center space-x-4">
             <div className="w-full">
+              <div className="text-center text-sm text-gray-500 mb-2">1.21.7 Fabric</div>
               <Button variant="default" size="lg" className="w-full mb-2">启动游戏</Button>
               <div className="flex space-x-2 mt-2">
                 <Button variant="secondary" className="flex-1">版本管理</Button>
-                <Button variant="secondary" className="flex-1">版本设置</Button>
+                <Button variant="secondary" className="flex-1" onClick={() => window.location.href = '/game-vision-setting'}>版本设置</Button>
               </div>
             </div>
           </CardContent>
