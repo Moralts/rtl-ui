@@ -11,6 +11,14 @@ import {
 } from "@/components/ui/carousel";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -20,6 +28,7 @@ export default function Home() {
     name: "RTL User",
     status: "正版验证"
   });
+  const [activeTab, setActiveTab] = useState<'overview' | 'basic' | 'modify' | 'export'>('overview');
 
   const profiles = [
     { id: 1, name: "MocoStars", status: "正版验证" },
@@ -62,7 +71,7 @@ export default function Home() {
     <div className="relative h-screen">
       {/* 右侧栏 - 1/4 宽度，上下占满，保持固定不动 */}
       <div className="absolute right-0 top-0 w-1/4 h-full p-4 flex flex-col justify-end z-10">
-        <Card className={`transition-all duration-700 ease-in-out ${currentView === 'new' ? 'h-auto' : 'h-full'} flex flex-col justify-between`}>
+        <Card className={`transition-all duration-700 ease-in-out ${currentView === 'new' ? 'h-70' : 'h-full'} flex flex-col justify-between`}>
           {/* 卡片主要内容区域 */}
           <CardContent 
             className="flex-grow flex flex-col items-center justify-center transition-all duration-700 ease-in-out"
@@ -144,98 +153,147 @@ export default function Home() {
 
       {/* 新区域内容 */}
       <div className={`absolute inset-0 transition-transform duration-700 ease-in-out transform ${currentView === 'new' ? 'translate-y-0' : 'translate-y-full'}`}>
-        <div className="flex flex-col h-full">
-          {/* 新区域顶部卡片 */}
-          <div className="absolute top-2 left-0 right-0 mx-4 z-0">
-            <Card className="p-3">
-              <div className="flex items-center">
-                <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-200 border-2 border-dashed flex items-center justify-center mr-3">
-                  <img 
-                    src="https://fabricmc.net/assets/logo.png" 
-                    alt="实例图标" 
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center flex-wrap gap-1">
-                    <h2 className="text-lg font-bold mr-2">RTL World</h2>
-                    <Badge variant="secondary">Minecraft 1.21.8</Badge>
-                    <Badge variant="secondary">Fabric 0.17.2</Badge>
-                    <Badge variant="secondary">72 Mods</Badge>
-                    <Badge variant="secondary">1.76 GB</Badge>
-                  </div>
-                </div>
+        
+        {/* 新区域顶部卡片 */}
+        <div className="absolute top-2 left-0 right-0 mx-4 z-0">
+          <Card className="p-3">
+            <div className="flex items-center">
+              <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-200 border-2 border-dashed flex items-center justify-center mr-3">
+                <img 
+                  src="https://fabricmc.net/assets/logo.png" 
+                  alt="实例图标" 
+                  className="w-full h-full object-contain"
+                />
               </div>
-            </Card>
-          </div>
-          
-          {/* 新区域内容卡片 */}
-          <div className="flex flex-wrap justify-center mt-20 w-full px-4 overflow-y-auto" style={{ maxHeight: '50vh' }}>
-            <div className="w-full max-w-4xl">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-                <Card className="md:col-span-2">
-                  <CardHeader>
-                    <CardTitle>实例详细信息</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>这里是实例的详细信息内容...</p>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Mod</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>Mod管理相关内容...</p>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle>资源包</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>资源包管理相关内容...</p>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle>光影包</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>光影包管理相关内容...</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="sm:col-span-2 md:col-span-1">
-                  <CardHeader>
-                    <CardTitle>截图</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>游戏截图展示区域...</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="md:col-span-3">
-                  <CardHeader>
-                    <CardTitle>世界</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>世界存档管理相关内容...</p>
-                  </CardContent>
-                </Card>
+              <div className="flex-1">
+                <div className="flex items-center flex-wrap gap-1">
+                  <h2 className="text-lg font-bold mr-2">RTL World</h2>
+                  <Badge variant="default">Minecraft 1.21.8</Badge>
+                  <Badge variant="secondary">Fabric 0.17.2</Badge>
+                  <Badge variant="secondary" className="bg-blue-500 text-white dark:bg-blue-600">72 Mods</Badge>
+                </div>
               </div>
             </div>
-          </div>
+          </Card>
+        </div>
           
-          {/* 新区域底部按钮 - 居中 (在新区域显示向上按钮) */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
-            <Button variant="outline" onClick={toggleView}>
-              返回主页
-            </Button>
+        {/* 标签页 */}
+        <div className="absolute top-24 left-0 right-0 mx-4 z-0">
+          <Card className="p-2 py-2 bg-white dark:bg-gray-800">
+            <NavigationMenu className="w-full">
+              <NavigationMenuList className="w-full justify-center space-x-4">
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={`px-4 py-1 block rounded-md cursor-pointer ${
+                      activeTab === 'overview' 
+                        ? 'bg-gray-200 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600' 
+                        : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                    onClick={() => setActiveTab('overview')}
+                  >
+                    概览
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={`px-4 py-1 block rounded-md cursor-pointer ${
+                      activeTab === 'basic' 
+                        ? 'bg-gray-200 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600' 
+                        : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                    onClick={() => setActiveTab('basic')}
+                  >
+                    基础设置
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={`px-4 py-1 block rounded-md cursor-pointer ${
+                      activeTab === 'modify' 
+                        ? 'bg-gray-200 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600' 
+                        : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                    onClick={() => setActiveTab('modify')}
+                  >
+                    修改
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink 
+                    className={`px-4 py-1 block rounded-md cursor-pointer ${
+                      activeTab === 'export' 
+                        ? 'bg-gray-200 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600' 
+                        : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                    onClick={() => setActiveTab('export')}
+                  >
+                    导出
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </Card>
+        </div>
+          
+        {/* 标签内容卡片 */}
+        <div className="absolute top-37 left-0 right-0 mx-4 z-0 mt-2">
+          <div className="relative h-64 overflow-hidden rounded-lg">
+            <div 
+              className={`absolute inset-0 transition-transform duration-300 ease-in-out transform ${
+                activeTab === 'overview' ? 'translate-x-0' : 
+                activeTab === 'basic' ? '-translate-x-full' : 
+                activeTab === 'modify' ? '-translate-x-full' : 
+                '-translate-x-full'
+              }`}
+            >
+              <Card className="h-full p-4">
+                <CardTitle>概览</CardTitle>
+                <p>这是概览内容区域。在这里你可以看到实例的总体信息。</p>
+              </Card>
+            </div>
+            <div 
+              className={`absolute inset-0 transition-transform duration-300 ease-in-out transform ${
+                activeTab === 'basic' ? 'translate-x-0' : 
+                activeTab === 'overview' ? 'translate-x-full' : 
+                activeTab === 'modify' ? '-translate-x-full' : 
+                '-translate-x-full'
+              }`}
+            >
+              <Card className="h-full p-4">
+                <CardTitle>基础设置</CardTitle>
+                <p>这是基础设置内容区域。在这里你可以配置实例的基本参数。</p>
+              </Card>
+            </div>
+            <div 
+              className={`absolute inset-0 transition-transform duration-300 ease-in-out transform ${
+                activeTab === 'modify' ? 'translate-x-0' : 
+                (activeTab === 'overview' || activeTab === 'basic') ? 'translate-x-full' : 
+                '-translate-x-full'
+              }`}
+            >
+              <Card className="h-full p-4">
+                <CardTitle>修改</CardTitle>
+                <p>这是修改内容区域。在这里你可以对实例进行高级调整。</p>
+              </Card>
+            </div>
+            <div 
+              className={`absolute inset-0 transition-transform duration-300 ease-in-out transform ${
+                activeTab === 'export' ? 'translate-x-0' : 'translate-x-full'
+              }`}
+            >
+              <Card className="h-full p-4">
+                <CardTitle>导出</CardTitle>
+                <p>这是导出内容区域。在这里你可以导出或分享你的实例。</p>
+              </Card>
+            </div>
           </div>
+        </div>
+          
+        {/* 新区域底部按钮 - 居中 (在新区域显示向上按钮) */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
+          <Button variant="outline" onClick={toggleView}>
+            返回主页
+          </Button>
         </div>
       </div>
 
