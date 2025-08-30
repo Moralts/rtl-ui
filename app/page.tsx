@@ -236,39 +236,105 @@ export default function Home() {
         </div>
           
         {/* 标签内容卡片 */}
-        <div className="absolute top-37 left-0 right-0 mx-4 z-0 mt-2">
-          <div className="relative h-64 overflow-hidden rounded-lg">
+        <div className="absolute top-37 left-0 right-0 mx-4 z-0 mt-2 ">
+          <div className="relative h-[calc(100vh-180px)] overflow-hidden rounded-lg">
+            {/* 概览标签内容 - 7张卡片 */}
             <div 
               className={`absolute inset-0 transition-transform duration-300 ease-in-out transform ${
                 activeTab === 'overview' ? 'translate-x-0' : 
-                activeTab === 'basic' ? '-translate-x-full' : 
-                activeTab === 'modify' ? '-translate-x-full' : 
-                '-translate-x-full'
+                (activeTab === 'basic' || activeTab === 'modify' || activeTab === 'export') ? '-translate-x-full' : 
+                'translate-x-full' 
               }`}
             >
-              <Card className="h-full p-4">
-                <CardTitle>概览</CardTitle>
-                <p>这是概览内容区域。在这里你可以看到实例的总体信息。</p>
-              </Card>
+              <div className="flex gap-4 h-full">
+                {/* 左侧卡片 - 填充上下边距 */}
+                <div className={`w-1/4 h-full transition-all duration-700 ease-in-out ${
+                  activeTab === 'overview' 
+                    ? 'opacity-100 translate-x-0' 
+                    : 'opacity-0 -translate-x-full'
+                }`}>
+                  <Card className="h-full p-4">
+                    <CardTitle>实例信息</CardTitle>
+                    <p>这是实例的详细信息卡片，包含版本、模组等关键信息。</p>
+                  </Card>
+                </div>
+                
+                {/* 右侧网格布局 - 6张卡片动态分布 */}
+                <div className="flex-1 grid grid-cols-2 grid-rows-3 gap-4">
+                  <Card className={`p-4 transition-all duration-700 ease-in-out delay-75 ${
+                    activeTab === 'overview' 
+                      ? 'opacity-100 translate-x-0' 
+                      : 'opacity-0 translate-x-full'
+                  }`}>
+                    <CardTitle>性能监控</CardTitle>
+                    <p>显示当前实例的性能指标和资源使用情况。</p>
+                  </Card>
+                  <Card className={`p-4 transition-all duration-700 ease-in-out delay-100 ${
+                    activeTab === 'overview' 
+                      ? 'opacity-100 translate-x-0' 
+                      : 'opacity-0 translate-x-full'
+                  }`}>
+                    <CardTitle>模组管理</CardTitle>
+                    <p>管理已安装的模组，支持启用、禁用和更新操作。</p>
+                  </Card>
+                  <Card className={`p-4 transition-all duration-700 ease-in-out delay-150 ${
+                    activeTab === 'overview' 
+                      ? 'opacity-100 translate-x-0' 
+                      : 'opacity-0 translate-x-full'
+                  }`}>
+                    <CardTitle>世界管理</CardTitle>
+                    <p>查看和管理保存的游戏世界。</p>
+                  </Card>
+                  <Card className={`p-4 transition-all duration-700 ease-in-out delay-200 ${
+                    activeTab === 'overview' 
+                      ? 'opacity-100 translate-x-0' 
+                      : 'opacity-0 translate-x-full'
+                  }`}>
+                    <CardTitle>备份恢复</CardTitle>
+                    <p>创建和管理实例备份，支持一键恢复。</p>
+                  </Card>
+                  <Card className={`p-4 transition-all duration-700 ease-in-out delay-300 ${
+                    activeTab === 'overview' 
+                      ? 'opacity-100 translate-x-0' 
+                      : 'opacity-0 translate-x-full'
+                  }`}>
+                    <CardTitle>日志查看</CardTitle>
+                    <p>实时查看游戏和模组的日志输出。</p>
+                  </Card>
+                  <Card className={`p-4 transition-all duration-700 ease-in-out delay-500 ${
+                    activeTab === 'overview' 
+                      ? 'opacity-100 translate-x-0' 
+                      : 'opacity-0 translate-x-full'
+                  }`}>
+                    <CardTitle>资源统计</CardTitle>
+                    <p>显示实例占用的存储空间和资源使用统计。</p>
+                  </Card>
+                </div>
+              </div>
             </div>
+            
+            {/* 基础设置标签内容 */}
             <div 
               className={`absolute inset-0 transition-transform duration-300 ease-in-out transform ${
                 activeTab === 'basic' ? 'translate-x-0' : 
                 activeTab === 'overview' ? 'translate-x-full' : 
-                activeTab === 'modify' ? '-translate-x-full' : 
-                '-translate-x-full'
+                (activeTab === 'modify' || activeTab === 'export') ? '-translate-x-full' : 
+                'translate-x-full'
               }`}
             >
-              <Card className="h-full p-4">
+              <Card className="h-full p-4 ">
                 <CardTitle>基础设置</CardTitle>
                 <p>这是基础设置内容区域。在这里你可以配置实例的基本参数。</p>
               </Card>
             </div>
+            
+            {/* 修改标签内容 */}
             <div 
               className={`absolute inset-0 transition-transform duration-300 ease-in-out transform ${
                 activeTab === 'modify' ? 'translate-x-0' : 
                 (activeTab === 'overview' || activeTab === 'basic') ? 'translate-x-full' : 
-                '-translate-x-full'
+                activeTab === 'export' ? '-translate-x-full' : 
+                'translate-x-full'
               }`}
             >
               <Card className="h-full p-4">
@@ -276,9 +342,13 @@ export default function Home() {
                 <p>这是修改内容区域。在这里你可以对实例进行高级调整。</p>
               </Card>
             </div>
+            
+            {/* 导出标签内容 */}
             <div 
               className={`absolute inset-0 transition-transform duration-300 ease-in-out transform ${
-                activeTab === 'export' ? 'translate-x-0' : 'translate-x-full'
+                activeTab === 'export' ? 'translate-x-0' : 
+                (activeTab === 'overview' || activeTab === 'basic' || activeTab === 'modify') ? 'translate-x-full' : 
+                '-translate-x-full'
               }`}
             >
               <Card className="h-full p-4">
