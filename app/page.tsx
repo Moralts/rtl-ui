@@ -200,7 +200,7 @@ export default function Home() {
         
         {/* 新区域顶部卡片 */}
         <div className="fixed top-2 left-0 right-0 mx-4 z-10">
-          <Card className="p-3">
+          <Card className="p-2">
             <div className="flex items-center">
               <div className="w-12 h-12 rounded-lg overflow-hidden border-2 border-dashed flex items-center justify-center mr-3">
                 <img 
@@ -244,8 +244,8 @@ export default function Home() {
         </div>
           
         {/* 标签页内容 */}
-        <div className="absolute top-24 left-0 right-0 mx-4 z-0 mt-2 overflow-y-auto" style={{ height: 'calc(100vh - 10rem)' }}>
-            <div className="flex gap-4 h-[calc(100vh-12rem)]">
+        <div className="absolute top-24 left-0 right-0 bottom-0 mx-4 z-0 overflow-y-auto mt-0 pb-4">
+            <div className="flex gap-4 h-full min-h-0">
               {/* 概览页面内容 */}
               <div className="w-1/4">
                 <Card className="h-full group relative overflow-hidden hover:shadow -lg transition-all duration-300">
@@ -347,7 +347,7 @@ export default function Home() {
               </div>
 
               {/* 右侧卡片 */}
-              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[minmax(0,1fr)] h-full items-stretch">
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[minmax(0,1fr)] h-full items-stretch min-h-0">
                 {/* Mods 卡片 */}
                 <Link href="/instance-settings/mods" className="block h-full">
                   <Card className="group relative overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer h-full flex flex-col">
