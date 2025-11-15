@@ -53,6 +53,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
+import InstanceHeader from "@/components/layout/instance-header";
+import AccountSwitcher from "@/components/accounts/AccountSwitcher";
+import { useAccountContext } from "@/components/accounts/AccountProvider";
 
 export default function Home() {
   const [isProfileSelectorOpen, setIsProfileSelectorOpen] = useState(false);
@@ -64,25 +67,11 @@ export default function Home() {
       setCurrentView(savedView);
     }
   }, []);
-  const [selectedProfile, setSelectedProfile] = useState({
-    name: "RTL User",
-    status: "正版验证"
-  });
+  const { profiles, selectedProfile, selectProfile } = useAccountContext();
   const [activeTab, setActiveTab] = useState<'overview' | 'basic' | 'modify' | 'export'>('overview');
 
-  const profiles = [
-    { id: 1, name: "MocoStars", status: "正版验证" },
-    { id: 2, name: "Esuny", status: "离线登录" },
-    { id: 3, name: "ElandaDRM", status: "离线登录" },
-    { id: 4, name: "EasyCaomou", status: "离线登录" },
-    { id: 5, name: "Genshin", status: "皮肤站登录" },
-  ];
-
   const handleProfileSelect = (profile: typeof profiles[0]) => {
-    setSelectedProfile({
-      name: profile.name,
-      status: profile.status
-    });
+    selectProfile(profile as any);
     setIsProfileSelectorOpen(false);
   };
 
@@ -132,8 +121,8 @@ export default function Home() {
                 </div>
               </div>
               <div className={`transition-all duration-700 ease-in-out ml-3 flex flex-col`}>
-                <span className={`font-bold transition-all duration-700 ease-in-out text-base`}>{selectedProfile.name}</span>
-                <span className={`transition-all duration-700 ease-in-out text-gray-500 text-xs`}>{selectedProfile.status}</span>
+                <span className={`font-bold transition-all duration-700 ease-in-out text-base`}>{selectedProfile?.name ?? 'RTL User'}</span>
+                <span className={`transition-all duration-700 ease-in-out text-gray-500 text-xs`}>{selectedProfile?.status ?? ''}</span>
               </div>
             </Card>
           </CardContent>
@@ -200,47 +189,15 @@ export default function Home() {
         
         {/* 新区域顶部卡片 */}
         <div className="fixed top-2 left-0 right-0 mx-4 z-10">
-          <Card className="p-2">
-            <div className="flex items-center">
-              <div className="w-12 h-12 rounded-lg overflow-hidden border-2 border-dashed flex items-center justify-center mr-3">
-                <img 
-                  src="https://fabricmc.net/assets/logo.png" 
-                  alt="实例图标" 
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <div className="flex-1 flex justify-between items-center">
-                <div className="flex items-center flex-wrap gap-1">
-                  <h2 className="text-lg font-bold mr-2">RTL World</h2>
-                  <Badge variant="default">Minecraft 1.21.8</Badge>
-                  <Badge variant="secondary">Fabric 0.17.2</Badge>
-                  <Badge variant="secondary" className="bg-blue-500 text-white dark:bg-blue-600">72 Mods</Badge>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Card 
-                    className="cursor-pointer transition-all duration-200 flex flex-row items-center p-2"
-                    onClick={() => setIsProfileSelectorOpen(true)}
-                  >
-                    <div className="w-8 h-8 rounded-full overflow-hidden">
-                      <div className="bg-gray-200 border-2 border-dashed rounded-full w-full h-full flex items-center justify-center">
-                      </div>
-                    </div>
-                    <div className="ml-2">
-                      <div className="font-semibold text-sm">{selectedProfile.name}</div>
-                      <div className="text-gray-500 text-xs">{selectedProfile.status}</div>
-                    </div>
-                  </Card>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                  >
-                    实例选择
-                  </Button>
-                  <Button size="sm" variant="default">启动游戏</Button>
-                </div>
-              </div>
-            </div>
-          </Card>
+          <InstanceHeader
+            instanceName="RTL World"
+            minecraftVersion="Minecraft 1.21.8"
+            loader="Fabric 0.17.2"
+            modsCount={72}
+            selectedProfile={selectedProfile}
+            onOpenProfileSelector={() => setIsProfileSelectorOpen(true)}
+            className="p-2"
+          />
         </div>
           
         {/* 标签页内容 */}
@@ -498,47 +455,7 @@ export default function Home() {
       </div>
 
       {/* 弹出的选择器卡片 */}
-      {isProfileSelectorOpen && (
-        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
-          <Card className="w-full max-w-md shadow-2xl shadow-black/20 dark:shadow-black/40 transform transition-all duration-300 ease-out">
-            <CardHeader>
-              <CardTitle>选择用户</CardTitle>
-              <CardDescription>点击选择一个用户配置文件</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Carousel className="w-full">
-                <CarouselContent>
-                  {profiles.map((profile) => (
-                    <CarouselItem key={profile.id} className="basis-full sm:basis-1/2 md:basis-1/3">
-                      <div 
-                        className="p-4 border rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-                        onClick={() => handleProfileSelect(profile)}
-                      >
-                        <div className="flex flex-col items-center">
-                          <div className="w-16 h-16 rounded-full overflow-hidden mb-2">
-                            <AspectRatio ratio={1} className="flex items-center justify-center bg-gray-200 border-2 border-dashed rounded-xl w-full h-full">
-                              {/* 这里可以放置实际的头像图片 */}
-                            </AspectRatio>
-                          </div>
-                          <h3 className="font-semibold">{profile.name}</h3>
-                          <p className="text-sm text-gray-500">{profile.status}</p>
-                        </div>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-              <div className="mt-4 flex justify-center">
-                <Button variant="outline" onClick={() => setIsProfileSelectorOpen(false)}>
-                  取消
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+      <AccountSwitcher open={isProfileSelectorOpen} onClose={() => setIsProfileSelectorOpen(false)} onSelect={(acc) => handleProfileSelect(acc as typeof profiles[0])} />
     </div>
   );
 }

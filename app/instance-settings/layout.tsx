@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import InstanceHeader from "@/components/layout/instance-header";
+import AccountSwitcher from "@/components/accounts/AccountSwitcher";
+import { useAccountContext } from "@/components/accounts/AccountProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const icons = {
@@ -90,6 +93,8 @@ const icons = {
 
 export default function InstanceSettingsLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { profiles, selectedProfile, selectProfile } = useAccountContext();
+  const [isProfileSelectorOpen, setIsProfileSelectorOpen] = useState(false);
 
   const links = [
     { href: '/instance-settings/basic', label: '基础', icon: icons.basic },
@@ -105,7 +110,9 @@ export default function InstanceSettingsLayout({ children }: { children: React.R
   return (
     <div className="container mx-auto p-4">
       <div className="space-y-4">
-        <InstanceHeader />
+        <InstanceHeader selectedProfile={selectedProfile} onOpenProfileSelector={() => setIsProfileSelectorOpen(true)} />
+
+        <AccountSwitcher open={isProfileSelectorOpen} onClose={() => setIsProfileSelectorOpen(false)} onSelect={(acc) => selectProfile(acc as any)} />
 
         <div className="grid grid-cols-12 gap-4">
           <aside className="col-span-2">

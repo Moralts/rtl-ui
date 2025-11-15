@@ -4,13 +4,17 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Account } from "@/components/accounts/AccountProvider";
 
 type InstanceHeaderProps = {
   instanceName?: string;
   minecraftVersion?: string;
   loader?: string;
   modsCount?: number;
-  selectedProfile?: { name: string; status: string };
+  selectedProfile?: Account | null;
+  onOpenProfileSelector?: () => void;
+  className?: string;
 };
 
 export default function InstanceHeader({
@@ -18,10 +22,12 @@ export default function InstanceHeader({
   minecraftVersion = "Minecraft 1.21.8",
   loader = "Fabric 0.17.2",
   modsCount = 72,
-  selectedProfile = { name: "RTL User", status: "正版验证" },
+  selectedProfile = { id: 0, name: "RTL User", status: "正版验证" },
+  onOpenProfileSelector,
+  className,
 }: InstanceHeaderProps) {
   return (
-    <Card className="p-3">
+    <Card className={cn("p-3", className)}>
       <div className="flex items-center">
         <div className="w-12 h-12 rounded-lg overflow-hidden border-2 border-dashed flex items-center justify-center mr-3">
           <img
@@ -42,13 +48,13 @@ export default function InstanceHeader({
           </div>
 
           <div className="flex items-center gap-4">
-            <Card className="cursor-pointer transition-all duration-200 flex flex-row items-center p-2">
+            <Card className="cursor-pointer transition-all duration-200 flex flex-row items-center p-2" onClick={onOpenProfileSelector}>
               <div className="w-8 h-8 rounded-full overflow-hidden">
                 <div className="bg-gray-200 border-2 border-dashed rounded-full w-full h-full flex items-center justify-center"></div>
               </div>
               <div className="ml-2">
-                <div className="font-semibold text-sm">{selectedProfile.name}</div>
-                <div className="text-gray-500 text-xs">{selectedProfile.status}</div>
+                <div className="font-semibold text-sm">{selectedProfile?.name ?? 'Unknown'}</div>
+                <div className="text-gray-500 text-xs">{selectedProfile?.status ?? ''}</div>
               </div>
             </Card>
 
