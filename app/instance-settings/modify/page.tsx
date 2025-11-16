@@ -8,20 +8,17 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function ModifyPage() {
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">实例修改</h1>
-          <p className="text-gray-500">修改实例的配置和文件</p>
-        </div>
+    <div className="space-y-3">
+      <div className="mb-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <h1 className="text-2xl font-bold leading-tight">修改设置</h1>
         <div className="flex gap-2">
           <Button>打开配置文件夹</Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="md:col-span-2">
-          <div className="space-y-4">
+          <div className="space-y-3">
             <Card>
               <CardHeader>
                 <CardTitle>配置文件</CardTitle>
@@ -61,13 +58,13 @@ export default function ModifyPage() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <Card>
             <CardHeader>
               <CardTitle>文件状态</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span>配置文件</span>
                   <Badge variant="outline">12 个文件</Badge>

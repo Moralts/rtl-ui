@@ -1,27 +1,24 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 
 export default function WorldsPage() {
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">世界管理</h1>
-          <p className="text-gray-500">管理您的 Minecraft 存档</p>
-        </div>
+    <div className="space-y-3">
+      <div className="mb-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <h1 className="text-2xl font-bold leading-tight">世界设置</h1>
         <div className="flex gap-2">
           <Button variant="outline">导入存档</Button>
           <Button>创建新世界</Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="md:col-span-2">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {[1, 2, 3, 4].map((world) => (
               <Card key={world}>
                 <div className="aspect-video relative">

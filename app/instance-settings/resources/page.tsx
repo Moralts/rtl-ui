@@ -7,16 +7,15 @@ import { Input } from "@/components/ui/input";
 
 export default function ResourcesPage() {
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">资源包管理</h1>
-          <p className="text-gray-500">管理您的 Minecraft 资源包</p>
+    <div className="space-y-3">
+      <div className="mb-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <h1 className="text-2xl font-bold leading-tight">资源设置</h1>
+        <div className="flex gap-2">
+          <Button>添加资源包</Button>
         </div>
-        <Button>添加资源包</Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="md:col-span-2">
           <Card className="min-h-[600px] w-full">
             <CardHeader>
@@ -24,7 +23,7 @@ export default function ResourcesPage() {
               <CardDescription>点击卡片预览资源包效果</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[1, 2, 3, 4].map((pack) => (
                   <Card key={pack} className="cursor-pointer hover:shadow-lg transition-all">
                     <div className="aspect-video relative">

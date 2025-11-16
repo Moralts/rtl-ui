@@ -108,13 +108,22 @@ export default function InstanceSettingsLayout({ children }: { children: React.R
   ];
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="space-y-4">
-        <InstanceHeader selectedProfile={selectedProfile} onOpenProfileSelector={() => setIsProfileSelectorOpen(true)} />
-
+    <div className="w-full h-screen flex flex-col">
+      <div className="space-y-2 flex-1 overflow-hidden flex flex-col min-h-0 mx-2 p-2">
+        <div className="sticky top-0 z-10 bg-background">
+          <InstanceHeader
+            instanceName="RTL World"
+            minecraftVersion="Minecraft 1.21.8"
+            loader="Fabric 0.17.2"
+            modsCount={72}
+            selectedProfile={selectedProfile}
+            onOpenProfileSelector={() => setIsProfileSelectorOpen(true)}
+            className="p-2"
+          />
+        </div>
         <AccountSwitcher open={isProfileSelectorOpen} onClose={() => setIsProfileSelectorOpen(false)} onSelect={(acc) => selectProfile(acc as any)} />
 
-        <div className="grid grid-cols-12 gap-4">
+        <div className="grid grid-cols-12 gap-3 flex-1 min-h-0">
           <aside className="col-span-2">
             <Card>
               <CardHeader>
@@ -141,7 +150,7 @@ export default function InstanceSettingsLayout({ children }: { children: React.R
             </Card>
           </aside>
 
-          <main className="col-span-10">
+          <main className="col-span-10 overflow-y-auto min-h-0 no-scrollbar">
             <div className="space-y-4">{children}</div>
           </main>
         </div>

@@ -48,11 +48,17 @@ export default function InstanceHeader({
           </div>
 
           <div className="flex items-center gap-4">
-            <Card className="cursor-pointer transition-all duration-200 flex flex-row items-center p-2" onClick={onOpenProfileSelector}>
-              <div className="w-8 h-8 rounded-full overflow-hidden">
-                <div className="bg-gray-200 border-2 border-dashed rounded-full w-full h-full flex items-center justify-center"></div>
+            <Card
+              role="button"
+              tabIndex={0}
+              onClick={onOpenProfileSelector}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onOpenProfileSelector?.(); }}
+              className="cursor-pointer transition-all duration-200 flex flex-row items-center gap-2 p-2"
+            >
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 border-2 border-dashed flex items-center justify-center">
+                <span className="font-medium text-sm text-gray-600">{(selectedProfile?.name ?? 'U').charAt(0).toUpperCase()}</span>
               </div>
-              <div className="ml-2">
+              <div className="ml-2 leading-none">
                 <div className="font-semibold text-sm">{selectedProfile?.name ?? 'Unknown'}</div>
                 <div className="text-gray-500 text-xs">{selectedProfile?.status ?? ''}</div>
               </div>

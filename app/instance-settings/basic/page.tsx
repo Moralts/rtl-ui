@@ -17,27 +17,24 @@ import { Switch } from "@/components/ui/switch";
 
 export default function BasicSettingsPage() {
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">基础设置</h1>
-          <p className="text-gray-500">配置实例的基本启动参数</p>
-        </div>
+    <div className="space-y-3">
+      <div className="mb-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <h1 className="text-2xl font-bold leading-tight">基础设置</h1>
         <div className="flex gap-2">
           <Button variant="outline">重置设置</Button>
           <Button>保存更改</Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="md:col-span-2">
-          <div className="space-y-4">
+          <div className="space-y-3">
             <Card>
               <CardHeader>
                 <CardTitle>启动选项</CardTitle>
                 <CardDescription>配置游戏的基本启动参数</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 <div className="grid w-full items-center gap-1.5">
                   <Label htmlFor="title">游戏窗口标题</Label>
                   <Input id="title" placeholder="Minecraft* 1.21.8" />
@@ -64,8 +61,8 @@ export default function BasicSettingsPage() {
                 <CardTitle>内存配置</CardTitle>
                 <CardDescription>调整游戏内存分配</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-4">
+              <CardContent className="space-y-3">
+                <div className="space-y-3">
                   <div>
                     <Label>最大内存</Label>
                     <Slider defaultValue={[4]} max={16} step={0.5} />
@@ -83,7 +80,7 @@ export default function BasicSettingsPage() {
                 <CardTitle>高级启动参数</CardTitle>
                 <CardDescription>配置 JVM 参数和游戏启动参数</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 <div className="grid w-full items-center gap-1.5">
                   <Label htmlFor="jvm">JVM 参数</Label>
                   <Textarea
@@ -103,12 +100,12 @@ export default function BasicSettingsPage() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <Card>
             <CardHeader>
               <CardTitle>启动设置</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label htmlFor="auto-connect">自动连接服务器</Label>
                 <Switch id="auto-connect" />

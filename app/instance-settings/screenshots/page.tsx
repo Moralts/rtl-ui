@@ -15,19 +15,16 @@ import {
 
 export default function ScreenshotsPage() {
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">截图管理</h1>
-          <p className="text-gray-500">管理您的游戏截图</p>
-        </div>
+    <div className="space-y-3">
+      <div className="mb-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <h1 className="text-2xl font-bold leading-tight">截图设置</h1>
         <div className="flex gap-2">
           <Button variant="outline">打开截图文件夹</Button>
           <Button>导入截图</Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
         <div className="md:col-span-3">
           <Card>
             <CardHeader>
@@ -64,7 +61,7 @@ export default function ScreenshotsPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {[1, 2, 3, 4, 5, 6].map((screenshot) => (
                   <Card key={screenshot} className="cursor-pointer hover:shadow-lg transition-all">
                     <div className="aspect-video relative">

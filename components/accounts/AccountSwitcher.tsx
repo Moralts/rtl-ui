@@ -81,7 +81,7 @@ export default function AccountSwitcher({
         </CardContent>
         <div className="p-3 flex justify-between items-center">
           <div>
-            <Button variant="default" size="sm" className="ml-3 mr-2">
+            <Button variant="default" size="sm" className="ml-3 mr-4">
               新增
             </Button>
           </div>

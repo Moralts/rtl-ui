@@ -8,19 +8,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export default function ModsPage() {
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">模组管理</h1>
-          <p className="text-gray-500">管理和配置您的 Minecraft 模组</p>
-        </div>
+    <div className="space-y-3">
+      <div className="mb-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <h1 className="text-2xl font-bold leading-tight">模组设置</h1>
         <div className="flex gap-2">
           <Button variant="outline">检查更新</Button>
           <Button>添加模组</Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="md:col-span-2">
           <Card>
             <CardHeader>
@@ -31,7 +28,7 @@ export default function ModsPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {[1, 2, 3, 4, 5].map((mod) => (
                   <div key={mod} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
                     <div className="flex items-center gap-4">
@@ -54,7 +51,7 @@ export default function ModsPage() {
         </div>
 
         <div>
-          <div className="space-y-4">
+          <div className="space-y-3">
             <Card>
               <CardHeader>
                 <CardTitle>快速操作</CardTitle>
