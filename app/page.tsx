@@ -34,11 +34,60 @@ export default function Home() {
     selectProfile(profile);
   };
 
+  useEffect(() => {
+    // Hide the global scrollbar on homepage to ensure no scrollbars are visible
+    if (currentView === "home") {
+      document.body.classList.add("no-scrollbar");
+      // prevent body scrolling if there's any
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.classList.remove("no-scrollbar");
+      document.body.style.overflow = "";
+    }
+    // Listener prevents wheel scrolling and touchmove when on homepage
+    const disableScrollWheel = (e: WheelEvent | TouchEvent) => {
+      if (currentView !== "home") return;
+      // Prevent default scroll behavior
+      e.preventDefault();
+    };
+
+    // Prevent the space key from scrolling unless the focused element is interactive
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (currentView !== "home") return;
+      const isSpace = e.code === "Space" || e.key === " " || e.key === "Spacebar";
+      if (!isSpace) return;
+
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName || "";
+      const isInteractive = ["INPUT", "TEXTAREA", "SELECT", "BUTTON"].includes(tag) || (target?.isContentEditable ?? false);
+      if (!isInteractive) {
+        e.preventDefault();
+      }
+    };
+
+    // Attach listeners when on home view
+    if (currentView === "home") {
+      window.addEventListener("wheel", disableScrollWheel as EventListener, { passive: false });
+      window.addEventListener("touchmove", disableScrollWheel as EventListener, { passive: false });
+      window.addEventListener("keydown", onKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("wheel", disableScrollWheel as EventListener);
+      window.removeEventListener("touchmove", disableScrollWheel as EventListener);
+      window.removeEventListener("keydown", onKeyDown);
+      // cleanup any global guard classes/styles we applied
+      document.body.classList.remove("no-scrollbar");
+      document.body.style.overflow = "";
+    };
+  }, [currentView]);
+
   return (
     <div className="relative h-screen">
       {/* 主页内容 */}
       <div
-        className={`absolute inset-0 transition-transform ease-out ${
+        // 添加 no-scrollbar 和 overflow-hidden 隐藏滚动条并禁用手动滚动
+        className={`absolute inset-0 transition-transform ease-out no-scrollbar overflow-hidden ${
           currentView === 'home' ? 'translate-y-0' : '-translate-y-full'
         }`}
         style={{ 
