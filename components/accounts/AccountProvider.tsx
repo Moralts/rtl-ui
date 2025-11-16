@@ -2,18 +2,13 @@
 
 import React, { createContext, useContext, useState } from "react";
 import accountsData from "@/config/accounts.json";
-
-export type Account = {
-  id: number;
-  name: string;
-  status: string;
-};
+import type { Account } from "@/types";
 
 type AccountContextType = {
   profiles: Account[];
   selectedProfile: Account | null;
   selectProfile: (acc: Account) => void;
-  reloadProfiles?: () => void;
+  reloadProfiles: () => void;
 };
 
 const AccountContext = createContext<AccountContextType | undefined>(undefined);

@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Account } from "@/components/accounts/AccountProvider";
+import type { Account } from "@/types";
 
 type InstanceHeaderProps = {
   instanceName?: string;
@@ -28,8 +27,8 @@ export default function InstanceHeader({
 }: InstanceHeaderProps) {
   return (
     <Card className={cn("p-3", className)}>
-      <div className="flex items-center">
-        <div className="w-12 h-12 rounded-lg overflow-hidden border-2 border-dashed flex items-center justify-center mr-3">
+      <div className="flex items-center flex-wrap gap-3">
+        <div className="w-12 h-12 rounded-lg overflow-hidden border-2 border-dashed flex items-center justify-center shrink-0">
           <img
             src="https://fabricmc.net/assets/logo.png"
             alt="实例图标"
@@ -37,7 +36,7 @@ export default function InstanceHeader({
           />
         </div>
 
-        <div className="flex-1 flex justify-between items-center">
+        <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
           <div className="flex items-center flex-wrap gap-1">
             <h2 className="text-lg font-bold mr-2">{instanceName}</h2>
             <Badge variant="default">{minecraftVersion}</Badge>
@@ -47,22 +46,24 @@ export default function InstanceHeader({
             </Badge>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Card
-              role="button"
-              tabIndex={0}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={onOpenProfileSelector}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onOpenProfileSelector?.(); }}
-              className="cursor-pointer transition-all duration-200 flex flex-row items-center gap-2 p-2"
+              className="gap-2 h-auto py-1.5 px-2"
+              aria-label="切换账户"
             >
-              <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 border-2 border-dashed flex items-center justify-center">
-                <span className="font-medium text-sm text-gray-600">{(selectedProfile?.name ?? 'U').charAt(0).toUpperCase()}</span>
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-primary/10 border-2 border-dashed flex items-center justify-center">
+                <span className="font-medium text-sm text-primary">
+                  {(selectedProfile?.name ?? 'U').charAt(0).toUpperCase()}
+                </span>
               </div>
-              <div className="ml-2 leading-none">
+              <div className="text-left leading-tight">
                 <div className="font-semibold text-sm">{selectedProfile?.name ?? 'Unknown'}</div>
-                <div className="text-gray-500 text-xs">{selectedProfile?.status ?? ''}</div>
+                <div className="text-xs text-muted-foreground">{selectedProfile?.status ?? ''}</div>
               </div>
-            </Card>
+            </Button>
 
             <Button variant="outline" size="sm">
               实例选择

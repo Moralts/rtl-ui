@@ -93,7 +93,7 @@ const icons = {
 
 export default function InstanceSettingsLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { profiles, selectedProfile, selectProfile } = useAccountContext();
+  const { selectedProfile, selectProfile } = useAccountContext();
   const [isProfileSelectorOpen, setIsProfileSelectorOpen] = useState(false);
 
   const links = [
@@ -121,7 +121,7 @@ export default function InstanceSettingsLayout({ children }: { children: React.R
             className="p-2"
           />
         </div>
-        <AccountSwitcher open={isProfileSelectorOpen} onClose={() => setIsProfileSelectorOpen(false)} onSelect={(acc) => selectProfile(acc as any)} />
+        <AccountSwitcher open={isProfileSelectorOpen} onClose={() => setIsProfileSelectorOpen(false)} onSelect={selectProfile} />
 
         <div className="grid grid-cols-12 gap-3 flex-1 min-h-0">
           <aside className="col-span-2">

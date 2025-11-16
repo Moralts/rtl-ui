@@ -2,96 +2,124 @@
 
 import React from "react";
 import { useAccountContext } from "@/components/accounts/AccountProvider";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreVertical, Edit, Trash2, UserPlus } from "lucide-react";
+import type { Account } from "@/types";
 
-type Account = {
-  id: number;
-  name: string;
-  status: string;
+type AccountSwitcherProps = {
+  open: boolean;
+  onClose: () => void;
+  onSelect: (acc: Account) => void;
+  onEdit?: (acc: Account) => void;
+  onDelete?: (acc: Account) => void;
+  onAdd?: () => void;
 };
 
 export default function AccountSwitcher({
   open,
   onClose,
   onSelect,
-  className,
-}: {
-  open: boolean;
-  onClose: () => void;
-  onSelect: (acc: Account) => void;
-  className?: string;
-}) {
+  onEdit,
+  onDelete,
+  onAdd,
+}: AccountSwitcherProps) {
   const { profiles } = useAccountContext();
 
-  if (!open) return null;
+  const handleSelect = (acc: Account) => {
+    onSelect(acc);
+    onClose();
+  };
+
+  const handleEdit = (acc: Account, e: React.MouseEvent) => {
+    e.stopPropagation();
+    onEdit?.(acc);
+  };
+
+  const handleDelete = (acc: Account, e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDelete?.(acc);
+  };
 
   return (
-    <div className={cn("fixed inset-0 z-50 backdrop-blur-sm flex items-center justify-center p-4", className)}>
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>切换账户</CardTitle>
-        </CardHeader>
-        <CardContent className="grid gap-2">
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>切换账户</DialogTitle>
+          <DialogDescription>
+            选择一个账户或管理现有账户
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-2 py-4">
           {profiles.map((acc: Account) => (
-            <div key={acc.id} className="relative group rounded-lg">
-              <div
-                className="p-3 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150 flex items-center gap-3"
-                onClick={() => {
-                  onSelect(acc);
-                  onClose();
-                }}
-              >
-                <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center font-medium text-gray-700 dark:text-gray-200">
-                  {acc.name.charAt(0).toUpperCase()}
-                </div>
-                <div className="flex-1">
-                  <div className="font-semibold">{acc.name}</div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">{acc.status}</div>
-                </div>
-                <div className="text-sm text-gray-400">
-                  <Button size="icon" variant="ghost" className="opacity-70">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-gray-500">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M12 3v18"/>
-                    </svg>
-                  </Button>
-                </div>
+            <div
+              key={acc.id}
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors cursor-pointer group"
+              onClick={() => handleSelect(acc)}
+            >
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-medium text-primary">
+                {acc.name.charAt(0).toUpperCase()}
               </div>
-
-              {/* hover actions */}
-              <div className="absolute left-full top-1/2 ml-3 -translate-y-1/2 hidden group-hover:flex z-50 pointer-events-auto">
-                <div className="flex flex-col gap-2 bg-white dark:bg-gray-900 border rounded-md shadow-md p-2 min-w-[96px]">
-                  <Button size="sm" variant="ghost" className="justify-start" onClick={(e) => e.stopPropagation()}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 mr-2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.232-6.232" />
-                    </svg>
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold truncate">{acc.name}</div>
+                <div className="text-sm text-muted-foreground truncate">{acc.status}</div>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={(e) => e.stopPropagation()}
+                    aria-label="账户操作"
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={(e) => handleEdit(acc, e)}>
+                    <Edit className="h-4 w-4 mr-2" />
                     修改
-                  </Button>
-                  <Button size="sm" variant="destructive" className="justify-start" onClick={(e) => e.stopPropagation()}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 mr-2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7L5 7M10 11v6M14 11v6M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2" />
-                    </svg>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => handleDelete(acc, e)}
+                    className="text-destructive focus:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
                     删除
-                  </Button>
-                </div>
-              </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           ))}
-        </CardContent>
-        <div className="p-3 flex justify-between items-center">
-          <div>
-            <Button variant="default" size="sm" className="ml-3 mr-4">
-              新增
-            </Button>
-          </div>
-          <div>
-            <Button variant="outline" size="sm" className="mr-3" onClick={onClose}>
-              取消
-            </Button>
-          </div>
         </div>
-      </Card>
-    </div>
+        <div className="flex justify-between items-center pt-2 border-t">
+          <Button
+            variant="default"
+            size="sm"
+            onClick={onAdd}
+            className="gap-2"
+          >
+            <UserPlus className="h-4 w-4" />
+            新增账户
+          </Button>
+          <Button variant="outline" size="sm" onClick={onClose}>
+            取消
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

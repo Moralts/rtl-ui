@@ -8,6 +8,17 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { 
+  Home, 
+  Download, 
+  Wifi, 
+  MoreHorizontal, 
+  Settings, 
+  Sun, 
+  Moon, 
+  ArrowLeft 
+} from "lucide-react";
+import { ROUTES } from "@/constants";
 
 export function Sidebar() {
   const { theme, setTheme } = useTheme();
@@ -39,7 +50,14 @@ export function Sidebar() {
   };
 
   // 判断是否为二级页面（不是主页面或侧边栏导航页面）
-  const isSubPage = !['/', '/download', '/lan', '/more', '/settings'].includes(pathname);
+  const mainRoutes: string[] = [
+    ROUTES.HOME, 
+    ROUTES.DOWNLOAD, 
+    ROUTES.LAN, 
+    ROUTES.MORE, 
+    ROUTES.SETTINGS
+  ];
+  const isSubPage = !mainRoutes.includes(pathname);
 
   // 避免在服务端渲染时出现水合不匹配的问题
   if (!mounted) {
@@ -74,8 +92,9 @@ export function Sidebar() {
                   variant="ghost" 
                   size="icon"
                   onClick={() => router.back()}
+                  aria-label="返回上一页"
                 >
-                  <BackIcon />
+                  <ArrowLeft className="h-5 w-5" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right">
@@ -88,12 +107,12 @@ export function Sidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button 
-                variant={pathname === "/" ? "default" : "ghost"} 
+                variant={pathname === ROUTES.HOME ? "default" : "ghost"} 
                 size="icon" 
                 asChild
               >
-                <Link href="/">
-                  <HomeIcon />
+                <Link href={ROUTES.HOME} aria-label="主页">
+                  <Home className="h-5 w-5" />
                 </Link>
               </Button>
             </TooltipTrigger>
@@ -104,12 +123,12 @@ export function Sidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button 
-                variant={pathname === "/download" ? "default" : "ghost"} 
+                variant={pathname === ROUTES.DOWNLOAD ? "default" : "ghost"} 
                 size="icon" 
                 asChild
               >
-                <Link href="/download">
-                  <DownloadIcon />
+                <Link href={ROUTES.DOWNLOAD} aria-label="下载">
+                  <Download className="h-5 w-5" />
                 </Link>
               </Button>
             </TooltipTrigger>
@@ -120,12 +139,12 @@ export function Sidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button 
-                variant={pathname === "/lan" ? "default" : "ghost"} 
+                variant={pathname === ROUTES.LAN ? "default" : "ghost"} 
                 size="icon" 
                 asChild
               >
-                <Link href="/lan">
-                  <WifiIcon />
+                <Link href={ROUTES.LAN} aria-label="网络">
+                  <Wifi className="h-5 w-5" />
                 </Link>
               </Button>
             </TooltipTrigger>
@@ -136,12 +155,12 @@ export function Sidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button 
-                variant={pathname === "/more" ? "default" : "ghost"} 
+                variant={pathname === ROUTES.MORE ? "default" : "ghost"} 
                 size="icon" 
                 asChild
               >
-                <Link href="/more">
-                  <MoreIcon />
+                <Link href={ROUTES.MORE} aria-label="更多">
+                  <MoreHorizontal className="h-5 w-5" />
                 </Link>
               </Button>
             </TooltipTrigger>
@@ -160,9 +179,10 @@ export function Sidebar() {
                 size="icon" 
                 onClick={toggleTheme}
                 className="relative"
+                aria-label="切换主题"
               >
                 <div className={`transition-all duration-300 ease-in-out ${isAnimating ? 'rotate-[360deg] scale-0' : ''}`}>
-                  {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
+                  {theme === 'dark' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
                 </div>
               </Button>
             </TooltipTrigger>
@@ -173,12 +193,12 @@ export function Sidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button 
-                variant={pathname === "/settings" ? "default" : "ghost"} 
+                variant={pathname === ROUTES.SETTINGS ? "default" : "ghost"} 
                 size="icon" 
                 asChild
               >
-                <Link href="/settings">
-                  <SettingsIcon />
+                <Link href={ROUTES.SETTINGS} aria-label="设置">
+                  <Settings className="h-5 w-5" />
                 </Link>
               </Button>
             </TooltipTrigger>
@@ -192,69 +212,3 @@ export function Sidebar() {
   );
 }
 
-// 图标组件占位符 - 实际使用中可以替换为真正的图标组件
-function HomeIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-    </svg>
-  );
-}
-
-function DownloadIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-    </svg>
-  );
-}
-
-function WifiIcon() {
-  return (
-    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
-    </svg>
-  );
-}
-
-function MoreIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-    </svg>
-  );
-}
-
-function SettingsIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  );
-}
-
-function SunIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-    </svg>
-  );
-}
-
-function MoonIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-    </svg>
-  );
-}
-
-// 返回图标
-function BackIcon() {
-  return (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-    </svg>
-  );
-}
