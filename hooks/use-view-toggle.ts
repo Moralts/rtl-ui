@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { ViewType } from '@/types';
 import { STORAGE_KEYS } from '@/constants';
 
@@ -8,10 +8,17 @@ import { STORAGE_KEYS } from '@/constants';
 export function useViewToggle() {
   const [currentView, setCurrentView] = useState<ViewType>('home');
   
+  // 在客户端恢复保存的视图状态
   useEffect(() => {
-    const savedView = localStorage.getItem(STORAGE_KEYS.CURRENT_VIEW) as ViewType;
-    if (savedView) {
-      setCurrentView(savedView);
+    if (typeof window !== 'undefined') {
+      try {
+        const savedView = localStorage.getItem(STORAGE_KEYS.CURRENT_VIEW) as ViewType;
+        if (savedView === 'home' || savedView === 'new') {
+          setCurrentView(savedView);
+        }
+      } catch (error) {
+        console.warn('Failed to read view state from localStorage:', error);
+      }
     }
   }, []);
 

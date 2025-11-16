@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import InstanceHeader from "@/components/layout/instance-header";
 import AccountSwitcher from "@/components/accounts/AccountSwitcher";
 import { useAccountContext } from "@/components/accounts/AccountProvider";
@@ -22,6 +22,13 @@ export default function Home() {
   const [isProfileSelectorOpen, setIsProfileSelectorOpen] = useState(false);
   const { selectedProfile, selectProfile } = useAccountContext();
   const { currentView, toggleView } = useViewToggle();
+  // 使用 ref 跟踪是否是用户主动触发的视图切换
+  const isUserAction = useRef(false);
+
+  const handleToggleView = () => {
+    isUserAction.current = true;
+    toggleView();
+  };
 
   const handleProfileSelect = (profile: Account) => {
     selectProfile(profile);
@@ -34,7 +41,13 @@ export default function Home() {
         className={`absolute inset-0 transition-transform ease-out ${
           currentView === 'home' ? 'translate-y-0' : '-translate-y-full'
         }`}
-        style={{ transitionDuration: `${TRANSITION_DURATION.PAGE_TRANSITION}ms` }}
+        style={{ 
+          transitionDuration: isUserAction.current ? `${TRANSITION_DURATION.PAGE_TRANSITION}ms` : '0ms',
+        }}
+        onTransitionEnd={() => {
+          // 动画结束后重置标志
+          isUserAction.current = false;
+        }}
       >
         {/* 右侧栏 - 响应式宽度 */}
         <div className="absolute right-0 top-0 w-full md:w-1/3 lg:w-1/4 h-full p-4 flex flex-col justify-end">
@@ -52,7 +65,7 @@ export default function Home() {
         {/* 主页底部按钮 */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
           <Button
-            onClick={toggleView}
+            onClick={handleToggleView}
             className="gap-2 shadow-lg hover:shadow-xl transition-shadow"
             size="lg"
             aria-label="切换到实例设置"
@@ -68,7 +81,13 @@ export default function Home() {
         className={`absolute inset-0 transition-transform ease-out ${
           currentView === 'new' ? 'translate-y-0' : 'translate-y-full'
         }`}
-        style={{ transitionDuration: `${TRANSITION_DURATION.PAGE_TRANSITION}ms` }}
+        style={{ 
+          transitionDuration: isUserAction.current ? `${TRANSITION_DURATION.PAGE_TRANSITION}ms` : '0ms',
+        }}
+        onTransitionEnd={() => {
+          // 动画结束后重置标志
+          isUserAction.current = false;
+        }}
       >
         {/* 新区域顶部卡片 */}
         <div className="fixed top-2 left-0 right-0 mx-4 z-10">
@@ -100,7 +119,7 @@ export default function Home() {
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10">
           <Button
             variant="outline"
-            onClick={toggleView}
+            onClick={handleToggleView}
             className="gap-2 bg-background/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-shadow"
             aria-label="返回主页"
           >
