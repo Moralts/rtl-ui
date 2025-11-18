@@ -152,7 +152,7 @@ export default function Home() {
         </div>
 
         {/* 标签页内容 */}
-        <div className="absolute top-24 left-0 right-0 bottom-0 mx-4 z-0 overflow-y-auto mt-0 pb-4">
+        <div className="absolute top-22 left-0 right-0 bottom-0 mx-4 z-0 overflow-y-auto mt-0 pb-4">
           <div className="flex flex-col md:flex-row gap-4 h-full min-h-0">
             {/* 概览页面内容 */}
             <div className="w-full md:w-1/3 lg:w-1/4">

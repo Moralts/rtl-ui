@@ -109,7 +109,7 @@ export default function InstanceSettingsLayout({ children }: { children: React.R
 
   return (
     <div className="w-full h-screen flex flex-col">
-      <div className="space-y-2 flex-1 overflow-hidden flex flex-col min-h-0 mx-2 p-2">
+      <div className="space-y-4 flex-1 overflow-hidden flex flex-col min-h-0 mx-2 p-2">
         <div className="sticky top-0 z-10 bg-background">
           <InstanceHeader
             instanceName="RTL World"
