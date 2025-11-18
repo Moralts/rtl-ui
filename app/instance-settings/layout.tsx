@@ -7,6 +7,7 @@ import InstanceHeader from "@/components/layout/instance-header";
 import AccountSwitcher from "@/components/accounts/AccountSwitcher";
 import { useAccountContext } from "@/components/accounts/AccountProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Toaster } from "@/components/ui/sonner";
 
 const icons = {
   basic: (
@@ -155,6 +156,7 @@ export default function InstanceSettingsLayout({ children }: { children: React.R
           </main>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
