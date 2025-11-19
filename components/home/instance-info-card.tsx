@@ -39,7 +39,13 @@ function InfoItem({ label, value, tooltip, icon }: InfoItemProps) {
 
 export function InstanceInfoCard() {
   return (
-    <Card className="h-full group relative overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col">
+    <Card className="h-full group relative overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col border hover:border-blue-500/50">
+      {/* 卡片边框发光效果 */}
+      <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" 
+        style={{
+          boxShadow: "inset 0 0 20px rgba(59, 130, 246, 0.3), inset 0 0 40px rgba(6, 182, 212, 0.2)"
+        }}
+      />
       <CardHeader className="relative">
         <div className="w-14 h-14 mb-4 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl opacity-20" />

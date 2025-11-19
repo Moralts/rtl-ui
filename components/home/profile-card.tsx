@@ -11,9 +11,21 @@ type ProfileCardProps = {
 
 export function ProfileCard({ selectedProfile, onOpenProfileSelector }: ProfileCardProps) {
   return (
-    <Card className="transition-all duration-700 ease-in-out h-full flex flex-col justify-between">
+    <Card className="transition-all duration-700 ease-in-out h-full flex flex-col justify-between group relative overflow-hidden border hover:border-blue-500/50 hover:shadow-xl">
+      {/* 发光效果背景 */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: "linear-gradient(to right, rgb(59, 130, 246), rgb(6, 182, 212))"
+        }}
+      />
+      {/* 卡片边框发光效果 */}
+      <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" 
+        style={{
+          boxShadow: "inset 0 0 20px rgba(59, 130, 246, 0.3), inset 0 0 40px rgba(6, 182, 212, 0.2)"
+        }}
+      />
       {/* 卡片主要内容区域 */}
-      <CardContent className="flex-grow flex flex-col items-center justify-center transition-all duration-700 ease-in-out">
+      <CardContent className="flex-grow flex flex-col items-center justify-center transition-all duration-700 ease-in-out relative z-10">
         <Card
           className="cursor-pointer transition-all duration-700 ease-in-out flex flex-row items-center p-3 w-full hover:bg-accent"
           onClick={onOpenProfileSelector}
@@ -45,7 +57,7 @@ export function ProfileCard({ selectedProfile, onOpenProfileSelector }: ProfileC
       </CardContent>
 
       {/* 卡片底部按钮区域 */}
-      <CardContent className="flex items-center space-x-4 transition-all duration-700 ease-in-out">
+      <CardContent className="flex items-center space-x-4 transition-all duration-700 ease-in-out relative z-10">
         <div className="w-full">
           <div className="text-center text-sm text-muted-foreground mb-2 transition-all duration-700 ease-in-out">
             1.21.7 Fabric
