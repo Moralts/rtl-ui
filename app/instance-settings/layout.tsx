@@ -99,9 +99,9 @@ export default function InstanceSettingsLayout({ children }: { children: React.R
 
   const links = [
     { href: '/instance-settings/basic', label: '基础', icon: icons.basic },
-    { href: '/instance-settings/mods', label: 'Mods', icon: icons.mods },
     { href: '/instance-settings/modify', label: '修改', icon: icons.modify },
     { href: '/instance-settings/export', label: '导出', icon: icons.export },
+    { href: '/instance-settings/mods', label: 'Mods', icon: icons.mods },
     { href: '/instance-settings/resources', label: '资源', icon: icons.resources },
     { href: '/instance-settings/shaders', label: '光影', icon: icons.shaders },
     { href: '/instance-settings/worlds', label: '世界', icon: icons.worlds },
