@@ -15,8 +15,7 @@ import {
   X,
   RotateCcw,
   Package,
-  Grid3x3,
-  Disc3
+  Grid3x3
 } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";

@@ -18,7 +18,7 @@ import {
   Trash2,
   Download,
   Share2,
-  Image,
+  Image as IconImage,
   Calendar,
   X,
 } from "lucide-react";
@@ -91,7 +91,7 @@ export default function ScreenshotsPage() {
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                   <CardTitle className="flex items-center gap-2">
-                    <Image className="h-5 w-5" />
+                    <IconImage className="h-5 w-5" />
                     所有截图
                   </CardTitle>
                   <CardDescription>共 {screenshots.length} 张截图</CardDescription>
@@ -133,7 +133,7 @@ export default function ScreenshotsPage() {
                     }`}
                   >
                     <div className="aspect-video bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center relative">
-                      <Image className="h-8 w-8 text-slate-400" />
+                      <IconImage className="h-8 w-8 text-slate-400" />
                       {selectedScreenshots.includes(screenshot.id) && (
                         <div className="absolute inset-0 bg-blue-500/20 flex items-center justify-center">
                           <div className="w-6 h-6 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center">

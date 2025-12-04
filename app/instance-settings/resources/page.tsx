@@ -11,9 +11,9 @@ import {
   EyeOff,
   FolderOpen,
   Package,
-  Image,
   RefreshCw,
   X,
+  Image as IconImage,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -179,7 +179,7 @@ export default function ResourcesPage() {
           <Card className="h-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Image className="h-5 w-5" />
+                <IconImage className="h-5 w-5" />
                 资源统计
               </CardTitle>
             </CardHeader>
@@ -189,7 +189,7 @@ export default function ResourcesPage() {
                   <p className="text-xs text-slate-500 dark:text-slate-400">资源包</p>
                   <p className="text-lg font-semibold">3</p>
                 </div>
-                <Image className="h-5 w-5 text-blue-500" />
+                <span className="h-5 w-5 text-blue-500 inline-flex items-center justify-center">📦</span>
               </div>
               <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50">
                 <div>
