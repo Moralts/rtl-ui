@@ -91,15 +91,19 @@ export function InstanceInfoCard() {
           />
         </div>
 
-        {/* 第三行：游戏版本 + 加载器 */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* 第三行：游戏版本*/}
+        <div>
           <InfoItem
             label="游戏版本"
             value="1.21.8"
             tooltip="Minecraft 版本号"
             icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v6a2 2 0 01-2 2h-3l-4 4z" /></svg>}
           />
-          <InfoItem
+        </div>
+        
+        {/* 第四行：加载器 */}
+        <div>
+        <InfoItem
             label="加载器"
             value="Fabric"
             tooltip="模组加载器"
@@ -107,14 +111,18 @@ export function InstanceInfoCard() {
           />
         </div>
 
-        {/* 第四行：启动次数 + 上次启动 */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* 第五行：启动次数*/}
+        <div>
           <InfoItem
             label="启动次数"
             value="247"
             tooltip="总启动次数"
             icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
           />
+        </div>
+
+        {/* 第六行：上次启动时间 */}
+        <div>
           <InfoItem
             label="上次启动"
             value="2小时前"
