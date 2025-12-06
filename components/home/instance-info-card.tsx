@@ -103,7 +103,7 @@ export function InstanceInfoCard() {
         
         {/* 第四行：加载器 */}
         <div>
-        <InfoItem
+          <InfoItem
             label="加载器"
             value="Fabric"
             tooltip="模组加载器"
